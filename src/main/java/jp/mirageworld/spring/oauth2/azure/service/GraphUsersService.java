@@ -1,7 +1,5 @@
 package jp.mirageworld.spring.oauth2.azure.service;
 
-import java.util.Optional;
-
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -12,18 +10,10 @@ import com.microsoft.graph.models.ProfilePhoto;
 import com.microsoft.graph.models.User;
 import com.microsoft.graph.models.UserChangePasswordParameterSet;
 import com.microsoft.graph.requests.DirectoryObjectCollectionWithReferencesPage;
-import com.microsoft.graph.requests.DirectoryObjectCollectionWithReferencesRequestBuilder;
-import com.microsoft.graph.requests.DirectoryObjectWithReferenceRequestBuilder;
-import com.microsoft.graph.requests.DriveRequestBuilder;
 import com.microsoft.graph.requests.EventCollectionPage;
-import com.microsoft.graph.requests.EventCollectionRequestBuilder;
 import com.microsoft.graph.requests.MessageCollectionPage;
-import com.microsoft.graph.requests.MessageCollectionRequestBuilder;
-import com.microsoft.graph.requests.ProfilePhotoRequestBuilder;
 import com.microsoft.graph.requests.UserCollectionPage;
 import com.microsoft.graph.requests.UserDeltaCollectionPage;
-import com.microsoft.graph.requests.UserDeltaCollectionRequestBuilder;
-import com.microsoft.graph.requests.UserRequestBuilder;
 
 import jakarta.annotation.Nonnull;
 import lombok.extern.slf4j.Slf4j;
@@ -90,7 +80,7 @@ public class GraphUsersService extends GraphService {
         log.debug("create");
         Assert.notNull(graph, "graph");
         Assert.notNull(user, "user");
-        return Mono.justOrEmpty(Optional.ofNullable(this.client(graph).users().buildRequest().post(user)));
+        return Mono.justOrEmpty(this.client(graph).users().buildRequest().post(user));
     }
 
     /**
@@ -106,7 +96,7 @@ public class GraphUsersService extends GraphService {
         Assert.notNull(graph, "graph");
         Assert.notNull(id, "id");
         Assert.notNull(user, "user");
-        return Mono.justOrEmpty(Optional.ofNullable(this.client(graph).users(id).buildRequest().patch(user)));
+        return Mono.justOrEmpty(this.client(graph).users(id).buildRequest().patch(user));
     }
 
     /**
@@ -120,7 +110,7 @@ public class GraphUsersService extends GraphService {
         log.debug("delete");
         Assert.notNull(graph, "graph");
         Assert.notNull(id, "id");
-        return Mono.justOrEmpty(Optional.ofNullable(this.client(graph).users(id).buildRequest().delete()));
+        return Mono.justOrEmpty(this.client(graph).users(id).buildRequest().delete());
     }
 
     /**
@@ -134,8 +124,7 @@ public class GraphUsersService extends GraphService {
         log.debug("get");
         Assert.notNull(graph, "graph");
         Assert.notNull(id, "id");
-        Optional<UserRequestBuilder> builder = Optional.ofNullable(this.client(graph).users(id));
-        return Mono.justOrEmpty(builder.map(b -> b.buildRequest().get()));
+        return Mono.justOrEmpty(this.client(graph).users(id).buildRequest().get());
     }
 
     /**
@@ -148,9 +137,7 @@ public class GraphUsersService extends GraphService {
     public Mono<UserDeltaCollectionPage> delta(@Nonnull OAuth2AuthorizedClient graph) {
         log.debug("photo");
         Assert.notNull(graph, "graph");
-        Optional<UserDeltaCollectionRequestBuilder> builder = //
-                Optional.ofNullable(this.client(graph).users()).map(b -> b.delta());
-        return Mono.justOrEmpty(builder.map(b -> b.buildRequest().get()));
+        return Mono.justOrEmpty(this.client(graph).users().delta().buildRequest().get());
     }
 
     /**
@@ -164,9 +151,7 @@ public class GraphUsersService extends GraphService {
         log.debug("photo");
         Assert.notNull(graph, "graph");
         Assert.notNull(id, "id");
-        Optional<ProfilePhotoRequestBuilder> builder = //
-                Optional.ofNullable(this.client(graph).users(id)).map(b -> b.photo());
-        return Mono.justOrEmpty(builder.map(b -> b.buildRequest().get()));
+        return Mono.justOrEmpty(this.client(graph).users(id).photo().buildRequest().get());
     }
 
     /**
@@ -180,9 +165,7 @@ public class GraphUsersService extends GraphService {
         log.debug("manager");
         Assert.notNull(graph, "graph");
         Assert.notNull(id, "id");
-        Optional<DirectoryObjectWithReferenceRequestBuilder> builder = //
-                Optional.ofNullable(this.client(graph).users(id)).map(b -> b.manager());
-        return Mono.justOrEmpty(builder.map(b -> b.buildRequest().get()));
+        return Mono.justOrEmpty(this.client(graph).users(id).manager().buildRequest().get());
     }
 
     /**
@@ -196,9 +179,7 @@ public class GraphUsersService extends GraphService {
         log.debug("messages");
         Assert.notNull(graph, "graph");
         Assert.notNull(id, "id");
-        Optional<MessageCollectionRequestBuilder> builder = //
-                Optional.ofNullable(this.client(graph).users(id)).map(b -> b.messages());
-        return Mono.justOrEmpty(builder.map(b -> b.buildRequest().get()));
+        return Mono.justOrEmpty(this.client(graph).users(id).messages().buildRequest().get());
     }
 
     /**
@@ -212,9 +193,7 @@ public class GraphUsersService extends GraphService {
         log.debug("events");
         Assert.notNull(graph, "graph");
         Assert.notNull(id, "id");
-        Optional<EventCollectionRequestBuilder> builder = //
-                Optional.ofNullable(this.client(graph).users(id)).map(b -> b.events());
-        return Mono.justOrEmpty(builder.map(b -> b.buildRequest().get()));
+        return Mono.justOrEmpty(this.client(graph).users(id).events().buildRequest().get());
     }
 
     /**
@@ -228,9 +207,7 @@ public class GraphUsersService extends GraphService {
         log.debug("drive");
         Assert.notNull(graph, "graph");
         Assert.notNull(id, "id");
-        Optional<DriveRequestBuilder> builder = //
-                Optional.ofNullable(this.client(graph).users(id)).map(b -> b.drive());
-        return Mono.justOrEmpty(builder.map(b -> b.buildRequest().get()));
+        return Mono.justOrEmpty(this.client(graph).users(id).drive().buildRequest().get());
     }
 
     /**
@@ -245,9 +222,7 @@ public class GraphUsersService extends GraphService {
         log.debug("memberOf");
         Assert.notNull(graph, "graph");
         Assert.notNull(id, "id");
-        Optional<DirectoryObjectCollectionWithReferencesRequestBuilder> builder = //
-                Optional.ofNullable(this.client(graph).users(id)).map(b -> b.memberOf());
-        return Mono.justOrEmpty(builder.map(b -> b.buildRequest().get()));
+        return Mono.justOrEmpty(this.client(graph).users(id).memberOf().buildRequest().get());
     }
 
 }
