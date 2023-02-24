@@ -1,7 +1,5 @@
 package jp.mirageworld.spring.oauth2.azure.service;
 
-import java.util.Optional;
-
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.util.Assert;
 
@@ -27,10 +25,7 @@ public class GraphAppRoleAssignmentsService extends GraphService {
         log.debug("list");
         Assert.notNull(graph, "graph");
         Assert.notNull(id, "id");
-        return Mono.justOrEmpty(
-                Optional.ofNullable(this.client(graph).users(id))
-                        .map(b -> b.appRoleAssignments())
-                        .map(b -> b.buildRequest().get()));
+        return Mono.justOrEmpty(this.client(graph).users(id).appRoleAssignments().buildRequest().get());
     }
 
     /**
@@ -45,10 +40,7 @@ public class GraphAppRoleAssignmentsService extends GraphService {
         log.debug("add");
         Assert.notNull(graph, "graph");
         Assert.notNull(id, "id");
-        return Mono.justOrEmpty(
-                Optional.ofNullable(this.client(graph).users(id))
-                        .map(b -> b.appRoleAssignments())
-                        .map(b -> b.buildRequest().post(data)));
+        return Mono.justOrEmpty(this.client(graph).users(id).appRoleAssignments().buildRequest().post(data));
     }
 
     /**
@@ -65,10 +57,7 @@ public class GraphAppRoleAssignmentsService extends GraphService {
         Assert.notNull(graph, "graph");
         Assert.notNull(id, "id");
         Assert.notNull(dataId, "dataId");
-        return Mono.justOrEmpty(
-                Optional.ofNullable(this.client(graph).users(id))
-                        .map(b -> b.appRoleAssignments(dataId))
-                        .map(b -> b.buildRequest().delete()));
+        return Mono.justOrEmpty(this.client(graph).users(id).appRoleAssignments(dataId).buildRequest().delete());
     }
 
 }
