@@ -1,7 +1,7 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.0.3'
-	id 'io.spring.dependency-management' version '1.1.0'
+	id 'org.springframework.boot' 			version '3.0+'
+	id 'io.spring.dependency-management' 	version '1.1+'
 }
 
 group = 'jp.mirageworld.spring.oauth2'
@@ -18,10 +18,6 @@ repositories {
 	mavenCentral()
 }
 
-ext {
-	set('springCloudAzureVersion', "5.0.0")
-}
-
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -30,6 +26,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'com.azure.spring:spring-cloud-azure-starter-active-directory'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+	implementation 'com.microsoft.graph:microsoft-graph'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
@@ -40,7 +37,10 @@ dependencies {
 
 dependencyManagement {
 	imports {
-		mavenBom "com.azure.spring:spring-cloud-azure-dependencies:${springCloudAzureVersion}"
+		mavenBom "com.azure.spring:spring-cloud-azure-dependencies:5+"
+	}
+	dependencies {
+		dependency "com.microsoft.graph:microsoft-graph:5+"
 	}
 }
 
