@@ -17,7 +17,7 @@ import reactor.core.publisher.Mono;
 
 @Slf4j
 @Service
-public class GraphService {
+public class BaseGraphService {
 
     static final List<String> scopes = List.of("https://graph.microsoft.com/.default");
 

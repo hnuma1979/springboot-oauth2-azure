@@ -21,7 +21,7 @@ import reactor.core.publisher.Mono;
 
 @Slf4j
 @Service
-public class GraphUsersService extends GraphService {
+public class GraphUsersService extends BaseGraphService {
 
     /**
     * https://graph.microsoft.com/v1.0/me

@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
 @Slf4j
-public class GraphAppRoleAssignmentsService extends GraphService {
+public class GraphAppRoleAssignmentsService extends BaseGraphService {
 
     /**
     * GET https://graph.microsoft.com/v1.0/users/{id}/appRoleAssignments
