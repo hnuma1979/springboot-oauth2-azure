@@ -36,7 +36,7 @@ public class GraphAppRoleAssignmentsService extends BaseGraphService {
     * @return
     */
     public Mono<AppRoleAssignment> add(
-            @Nonnull OAuth2AuthorizedClient graph, @Nonnull String id, AppRoleAssignment data) {
+            @Nonnull OAuth2AuthorizedClient graph, @Nonnull String id, @Nonnull AppRoleAssignment data) {
         log.debug("add");
         Assert.notNull(graph, "graph");
         Assert.notNull(id, "id");
@@ -52,7 +52,7 @@ public class GraphAppRoleAssignmentsService extends BaseGraphService {
     * @return
     */
     public Mono<AppRoleAssignment> delete(
-            @Nonnull OAuth2AuthorizedClient graph, @Nonnull String id, String dataId) {
+            @Nonnull OAuth2AuthorizedClient graph, @Nonnull String id, @Nonnull String dataId) {
         log.debug("delete");
         Assert.notNull(graph, "graph");
         Assert.notNull(id, "id");
