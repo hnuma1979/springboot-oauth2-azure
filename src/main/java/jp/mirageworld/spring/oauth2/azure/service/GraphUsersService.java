@@ -10,6 +10,7 @@ import com.microsoft.graph.models.DirectoryObject;
 import com.microsoft.graph.models.Drive;
 import com.microsoft.graph.models.ProfilePhoto;
 import com.microsoft.graph.models.User;
+import com.microsoft.graph.models.UserChangePasswordParameterSet;
 import com.microsoft.graph.requests.DirectoryObjectCollectionWithReferencesPage;
 import com.microsoft.graph.requests.DirectoryObjectCollectionWithReferencesRequestBuilder;
 import com.microsoft.graph.requests.DirectoryObjectWithReferenceRequestBuilder;
@@ -20,6 +21,8 @@ import com.microsoft.graph.requests.MessageCollectionPage;
 import com.microsoft.graph.requests.MessageCollectionRequestBuilder;
 import com.microsoft.graph.requests.ProfilePhotoRequestBuilder;
 import com.microsoft.graph.requests.UserCollectionPage;
+import com.microsoft.graph.requests.UserDeltaCollectionPage;
+import com.microsoft.graph.requests.UserDeltaCollectionRequestBuilder;
 import com.microsoft.graph.requests.UserRequestBuilder;
 
 import jakarta.annotation.Nonnull;
@@ -38,7 +41,30 @@ public class GraphUsersService extends GraphService {
     */
     public Mono<User> me(OAuth2AuthorizedClient graph) {
         log.debug("me");
+        Assert.notNull(graph, "graph");
         return Mono.justOrEmpty(this.client(graph).me().buildRequest().get());
+    }
+
+    /**
+    * https://graph.microsoft.com/v1.0/me/changePassword
+    * 
+    * @param graph
+    * @return
+    */
+    public Mono<Void> changePassword(OAuth2AuthorizedClient graph, String curPassword, String newPassword) {
+        log.debug("changePassword");
+        Assert.notNull(graph, "graph");
+        Assert.notNull(curPassword, "curPassword");
+        Assert.notNull(newPassword, "newPassword");
+        this.client(graph).me()
+                .changePassword(UserChangePasswordParameterSet
+                        .newBuilder()
+                        .withCurrentPassword(curPassword)
+                        .withNewPassword(newPassword)
+                        .build())
+                .buildRequest()
+                .post();
+        return Mono.empty();
     }
 
     /**
@@ -48,8 +74,53 @@ public class GraphUsersService extends GraphService {
      * @return
      */
     public Mono<UserCollectionPage> list(OAuth2AuthorizedClient graph) {
-        log.debug("users");
+        log.debug("list");
+        Assert.notNull(graph, "graph");
         return Mono.justOrEmpty(this.client(graph).users().buildRequest().get());
+    }
+
+    /**
+     * POST https://graph.microsoft.com/v1.0/users/
+     * 
+     * @param graph
+     * @param user
+     * @return
+     */
+    public Mono<User> create(OAuth2AuthorizedClient graph, @Nonnull User user) {
+        log.debug("create");
+        Assert.notNull(graph, "graph");
+        Assert.notNull(user, "user");
+        return Mono.justOrEmpty(Optional.ofNullable(this.client(graph).users().buildRequest().post(user)));
+    }
+
+    /**
+     * PATH https://graph.microsoft.com/v1.0/users/{id}
+     * 
+     * @param graph
+     * @param id 
+     * @param user
+     * @return
+     */
+    public Mono<User> update(OAuth2AuthorizedClient graph, @Nonnull String id, @Nonnull User user) {
+        log.debug("update");
+        Assert.notNull(graph, "graph");
+        Assert.notNull(id, "id");
+        Assert.notNull(user, "user");
+        return Mono.justOrEmpty(Optional.ofNullable(this.client(graph).users(id).buildRequest().patch(user)));
+    }
+
+    /**
+     * DELETE https://graph.microsoft.com/v1.0/users/{id}
+     * 
+     * @param graph
+     * @param id 
+     * @return
+     */
+    public Mono<User> delete(OAuth2AuthorizedClient graph, @Nonnull String id) {
+        log.debug("delete");
+        Assert.notNull(graph, "graph");
+        Assert.notNull(id, "id");
+        return Mono.justOrEmpty(Optional.ofNullable(this.client(graph).users(id).buildRequest().delete()));
     }
 
     /**
@@ -60,10 +131,25 @@ public class GraphUsersService extends GraphService {
      * @return
      */
     public Mono<User> get(OAuth2AuthorizedClient graph, @Nonnull String id) {
-        log.debug("users");
+        log.debug("get");
         Assert.notNull(graph, "graph");
         Assert.notNull(id, "id");
-        Optional<UserRequestBuilder> builder = Optional.ofNullable(this.client(graph).users().byId(id));
+        Optional<UserRequestBuilder> builder = Optional.ofNullable(this.client(graph).users(id));
+        return Mono.justOrEmpty(builder.map(b -> b.buildRequest().get()));
+    }
+
+    /**
+     * GET https://graph.microsoft.com/v1.0/users/{id}/delta
+     * 
+     * @param graph
+     * @param id 
+     * @return
+     */
+    public Mono<UserDeltaCollectionPage> delta(OAuth2AuthorizedClient graph) {
+        log.debug("photo");
+        Assert.notNull(graph, "graph");
+        Optional<UserDeltaCollectionRequestBuilder> builder = //
+                Optional.ofNullable(this.client(graph).users()).map(b -> b.delta());
         return Mono.justOrEmpty(builder.map(b -> b.buildRequest().get()));
     }
 
@@ -75,11 +161,11 @@ public class GraphUsersService extends GraphService {
      * @return
      */
     public Mono<ProfilePhoto> photo(OAuth2AuthorizedClient graph, @Nonnull String id) {
-        log.debug("users");
+        log.debug("photo");
         Assert.notNull(graph, "graph");
         Assert.notNull(id, "id");
         Optional<ProfilePhotoRequestBuilder> builder = //
-                Optional.ofNullable(this.client(graph).users().byId(id)).map(b -> b.photo());
+                Optional.ofNullable(this.client(graph).users(id)).map(b -> b.photo());
         return Mono.justOrEmpty(builder.map(b -> b.buildRequest().get()));
     }
 
@@ -91,11 +177,11 @@ public class GraphUsersService extends GraphService {
      * @return
      */
     public Mono<DirectoryObject> manager(OAuth2AuthorizedClient graph, @Nonnull String id) {
-        log.debug("users");
+        log.debug("manager");
         Assert.notNull(graph, "graph");
         Assert.notNull(id, "id");
         Optional<DirectoryObjectWithReferenceRequestBuilder> builder = //
-                Optional.ofNullable(this.client(graph).users().byId(id)).map(b -> b.manager());
+                Optional.ofNullable(this.client(graph).users(id)).map(b -> b.manager());
         return Mono.justOrEmpty(builder.map(b -> b.buildRequest().get()));
     }
 
@@ -107,11 +193,11 @@ public class GraphUsersService extends GraphService {
      * @return
      */
     public Mono<MessageCollectionPage> messages(OAuth2AuthorizedClient graph, @Nonnull String id) {
-        log.debug("users");
+        log.debug("messages");
         Assert.notNull(graph, "graph");
         Assert.notNull(id, "id");
         Optional<MessageCollectionRequestBuilder> builder = //
-                Optional.ofNullable(this.client(graph).users().byId(id)).map(b -> b.messages());
+                Optional.ofNullable(this.client(graph).users(id)).map(b -> b.messages());
         return Mono.justOrEmpty(builder.map(b -> b.buildRequest().get()));
     }
 
@@ -123,11 +209,11 @@ public class GraphUsersService extends GraphService {
      * @return
      */
     public Mono<EventCollectionPage> events(OAuth2AuthorizedClient graph, @Nonnull String id) {
-        log.debug("users");
+        log.debug("events");
         Assert.notNull(graph, "graph");
         Assert.notNull(id, "id");
         Optional<EventCollectionRequestBuilder> builder = //
-                Optional.ofNullable(this.client(graph).users().byId(id)).map(b -> b.events());
+                Optional.ofNullable(this.client(graph).users(id)).map(b -> b.events());
         return Mono.justOrEmpty(builder.map(b -> b.buildRequest().get()));
     }
 
@@ -139,11 +225,11 @@ public class GraphUsersService extends GraphService {
      * @return
      */
     public Mono<Drive> drive(OAuth2AuthorizedClient graph, @Nonnull String id) {
-        log.debug("users");
+        log.debug("drive");
         Assert.notNull(graph, "graph");
         Assert.notNull(id, "id");
         Optional<DriveRequestBuilder> builder = //
-                Optional.ofNullable(this.client(graph).users().byId(id)).map(b -> b.drive());
+                Optional.ofNullable(this.client(graph).users(id)).map(b -> b.drive());
         return Mono.justOrEmpty(builder.map(b -> b.buildRequest().get()));
     }
 
@@ -156,11 +242,11 @@ public class GraphUsersService extends GraphService {
      */
     public Mono<DirectoryObjectCollectionWithReferencesPage> memberOf(
             OAuth2AuthorizedClient graph, @Nonnull String id) {
-        log.debug("users");
+        log.debug("memberOf");
         Assert.notNull(graph, "graph");
         Assert.notNull(id, "id");
         Optional<DirectoryObjectCollectionWithReferencesRequestBuilder> builder = //
-                Optional.ofNullable(this.client(graph).users().byId(id)).map(b -> b.memberOf());
+                Optional.ofNullable(this.client(graph).users(id)).map(b -> b.memberOf());
         return Mono.justOrEmpty(builder.map(b -> b.buildRequest().get()));
     }
 
