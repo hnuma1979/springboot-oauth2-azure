@@ -39,7 +39,7 @@ public class GraphUsersService extends GraphService {
     * @param graph
     * @return
     */
-    public Mono<User> me(OAuth2AuthorizedClient graph) {
+    public Mono<User> me(@Nonnull OAuth2AuthorizedClient graph) {
         log.debug("me");
         Assert.notNull(graph, "graph");
         return Mono.justOrEmpty(this.client(graph).me().buildRequest().get());
@@ -51,7 +51,7 @@ public class GraphUsersService extends GraphService {
     * @param graph
     * @return
     */
-    public Mono<Void> changePassword(OAuth2AuthorizedClient graph, String curPassword, String newPassword) {
+    public Mono<Void> changePassword(@Nonnull OAuth2AuthorizedClient graph, String curPassword, String newPassword) {
         log.debug("changePassword");
         Assert.notNull(graph, "graph");
         Assert.notNull(curPassword, "curPassword");
@@ -73,7 +73,7 @@ public class GraphUsersService extends GraphService {
      * @param graph
      * @return
      */
-    public Mono<UserCollectionPage> list(OAuth2AuthorizedClient graph) {
+    public Mono<UserCollectionPage> list(@Nonnull OAuth2AuthorizedClient graph) {
         log.debug("list");
         Assert.notNull(graph, "graph");
         return Mono.justOrEmpty(this.client(graph).users().buildRequest().get());
@@ -86,7 +86,7 @@ public class GraphUsersService extends GraphService {
      * @param user
      * @return
      */
-    public Mono<User> create(OAuth2AuthorizedClient graph, @Nonnull User user) {
+    public Mono<User> create(@Nonnull OAuth2AuthorizedClient graph, @Nonnull User user) {
         log.debug("create");
         Assert.notNull(graph, "graph");
         Assert.notNull(user, "user");
@@ -101,7 +101,7 @@ public class GraphUsersService extends GraphService {
      * @param user
      * @return
      */
-    public Mono<User> update(OAuth2AuthorizedClient graph, @Nonnull String id, @Nonnull User user) {
+    public Mono<User> update(@Nonnull OAuth2AuthorizedClient graph, @Nonnull String id, @Nonnull User user) {
         log.debug("update");
         Assert.notNull(graph, "graph");
         Assert.notNull(id, "id");
@@ -116,7 +116,7 @@ public class GraphUsersService extends GraphService {
      * @param id 
      * @return
      */
-    public Mono<User> delete(OAuth2AuthorizedClient graph, @Nonnull String id) {
+    public Mono<User> delete(@Nonnull OAuth2AuthorizedClient graph, @Nonnull String id) {
         log.debug("delete");
         Assert.notNull(graph, "graph");
         Assert.notNull(id, "id");
@@ -130,7 +130,7 @@ public class GraphUsersService extends GraphService {
      * @param id 
      * @return
      */
-    public Mono<User> get(OAuth2AuthorizedClient graph, @Nonnull String id) {
+    public Mono<User> get(@Nonnull OAuth2AuthorizedClient graph, @Nonnull String id) {
         log.debug("get");
         Assert.notNull(graph, "graph");
         Assert.notNull(id, "id");
@@ -145,7 +145,7 @@ public class GraphUsersService extends GraphService {
      * @param id 
      * @return
      */
-    public Mono<UserDeltaCollectionPage> delta(OAuth2AuthorizedClient graph) {
+    public Mono<UserDeltaCollectionPage> delta(@Nonnull OAuth2AuthorizedClient graph) {
         log.debug("photo");
         Assert.notNull(graph, "graph");
         Optional<UserDeltaCollectionRequestBuilder> builder = //
@@ -160,7 +160,7 @@ public class GraphUsersService extends GraphService {
      * @param id 
      * @return
      */
-    public Mono<ProfilePhoto> photo(OAuth2AuthorizedClient graph, @Nonnull String id) {
+    public Mono<ProfilePhoto> photo(@Nonnull OAuth2AuthorizedClient graph, @Nonnull String id) {
         log.debug("photo");
         Assert.notNull(graph, "graph");
         Assert.notNull(id, "id");
@@ -176,7 +176,7 @@ public class GraphUsersService extends GraphService {
      * @param id 
      * @return
      */
-    public Mono<DirectoryObject> manager(OAuth2AuthorizedClient graph, @Nonnull String id) {
+    public Mono<DirectoryObject> manager(@Nonnull OAuth2AuthorizedClient graph, @Nonnull String id) {
         log.debug("manager");
         Assert.notNull(graph, "graph");
         Assert.notNull(id, "id");
@@ -192,7 +192,7 @@ public class GraphUsersService extends GraphService {
      * @param id 
      * @return
      */
-    public Mono<MessageCollectionPage> messages(OAuth2AuthorizedClient graph, @Nonnull String id) {
+    public Mono<MessageCollectionPage> messages(@Nonnull OAuth2AuthorizedClient graph, @Nonnull String id) {
         log.debug("messages");
         Assert.notNull(graph, "graph");
         Assert.notNull(id, "id");
@@ -208,7 +208,7 @@ public class GraphUsersService extends GraphService {
      * @param id 
      * @return
      */
-    public Mono<EventCollectionPage> events(OAuth2AuthorizedClient graph, @Nonnull String id) {
+    public Mono<EventCollectionPage> events(@Nonnull OAuth2AuthorizedClient graph, @Nonnull String id) {
         log.debug("events");
         Assert.notNull(graph, "graph");
         Assert.notNull(id, "id");
@@ -224,7 +224,7 @@ public class GraphUsersService extends GraphService {
      * @param id 
      * @return
      */
-    public Mono<Drive> drive(OAuth2AuthorizedClient graph, @Nonnull String id) {
+    public Mono<Drive> drive(@Nonnull OAuth2AuthorizedClient graph, @Nonnull String id) {
         log.debug("drive");
         Assert.notNull(graph, "graph");
         Assert.notNull(id, "id");
