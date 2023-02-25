@@ -10,7 +10,6 @@ import com.microsoft.graph.models.ProfilePhoto;
 import com.microsoft.graph.models.User;
 import com.microsoft.graph.models.UserChangePasswordParameterSet;
 import com.microsoft.graph.requests.DirectoryObjectCollectionWithReferencesPage;
-import com.microsoft.graph.requests.EventCollectionPage;
 import com.microsoft.graph.requests.MessageCollectionPage;
 import com.microsoft.graph.requests.UserCollectionPage;
 import com.microsoft.graph.requests.UserDeltaCollectionPage;
@@ -32,7 +31,7 @@ public class GraphUsersService extends BaseGraphService {
     public Mono<User> me(@Nonnull OAuth2AuthorizedClient graph) {
         log.debug("me");
         Assert.notNull(graph, "graph");
-        return Mono.justOrEmpty(this.client(graph).me().buildRequest().get());
+        return Mono.justOrEmpty(this.users(graph).buildRequest().get());
     }
 
     /**
@@ -46,7 +45,7 @@ public class GraphUsersService extends BaseGraphService {
         Assert.notNull(graph, "graph");
         Assert.notNull(curPassword, "curPassword");
         Assert.notNull(newPassword, "newPassword");
-        this.client(graph).me()
+        this.users(graph)
                 .changePassword(UserChangePasswordParameterSet
                         .newBuilder()
                         .withCurrentPassword(curPassword)
@@ -96,7 +95,7 @@ public class GraphUsersService extends BaseGraphService {
         Assert.notNull(graph, "graph");
         Assert.notNull(id, "id");
         Assert.notNull(user, "user");
-        return Mono.justOrEmpty(this.client(graph).users(id).buildRequest().patch(user));
+        return Mono.justOrEmpty(this.users(graph, id).buildRequest().patch(user));
     }
 
     /**
@@ -110,7 +109,7 @@ public class GraphUsersService extends BaseGraphService {
         log.debug("delete");
         Assert.notNull(graph, "graph");
         Assert.notNull(id, "id");
-        return Mono.justOrEmpty(this.client(graph).users(id).buildRequest().delete());
+        return Mono.justOrEmpty(this.users(graph, id).buildRequest().delete());
     }
 
     /**
@@ -124,7 +123,7 @@ public class GraphUsersService extends BaseGraphService {
         log.debug("get");
         Assert.notNull(graph, "graph");
         Assert.notNull(id, "id");
-        return Mono.justOrEmpty(this.client(graph).users(id).buildRequest().get());
+        return Mono.justOrEmpty(this.users(graph, id).buildRequest().get());
     }
 
     /**
@@ -135,7 +134,7 @@ public class GraphUsersService extends BaseGraphService {
      * @return
      */
     public Mono<UserDeltaCollectionPage> delta(@Nonnull OAuth2AuthorizedClient graph) {
-        log.debug("photo");
+        log.debug("delta");
         Assert.notNull(graph, "graph");
         return Mono.justOrEmpty(this.client(graph).users().delta().buildRequest().get());
     }
@@ -151,7 +150,7 @@ public class GraphUsersService extends BaseGraphService {
         log.debug("photo");
         Assert.notNull(graph, "graph");
         Assert.notNull(id, "id");
-        return Mono.justOrEmpty(this.client(graph).users(id).photo().buildRequest().get());
+        return Mono.justOrEmpty(this.users(graph, id).photo().buildRequest().get());
     }
 
     /**
@@ -165,7 +164,7 @@ public class GraphUsersService extends BaseGraphService {
         log.debug("manager");
         Assert.notNull(graph, "graph");
         Assert.notNull(id, "id");
-        return Mono.justOrEmpty(this.client(graph).users(id).manager().buildRequest().get());
+        return Mono.justOrEmpty(this.users(graph, id).manager().buildRequest().get());
     }
 
     /**
@@ -179,21 +178,7 @@ public class GraphUsersService extends BaseGraphService {
         log.debug("messages");
         Assert.notNull(graph, "graph");
         Assert.notNull(id, "id");
-        return Mono.justOrEmpty(this.client(graph).users(id).messages().buildRequest().get());
-    }
-
-    /**
-     * GET https://graph.microsoft.com/v1.0/users/{id}/events
-     * 
-     * @param graph
-     * @param id 
-     * @return
-     */
-    public Mono<EventCollectionPage> events(@Nonnull OAuth2AuthorizedClient graph, @Nonnull String id) {
-        log.debug("events");
-        Assert.notNull(graph, "graph");
-        Assert.notNull(id, "id");
-        return Mono.justOrEmpty(this.client(graph).users(id).events().buildRequest().get());
+        return Mono.justOrEmpty(this.users(graph, id).messages().buildRequest().get());
     }
 
     /**
@@ -207,7 +192,7 @@ public class GraphUsersService extends BaseGraphService {
         log.debug("drive");
         Assert.notNull(graph, "graph");
         Assert.notNull(id, "id");
-        return Mono.justOrEmpty(this.client(graph).users(id).drive().buildRequest().get());
+        return Mono.justOrEmpty(this.users(graph, id).drive().buildRequest().get());
     }
 
     /**
@@ -222,7 +207,7 @@ public class GraphUsersService extends BaseGraphService {
         log.debug("memberOf");
         Assert.notNull(graph, "graph");
         Assert.notNull(id, "id");
-        return Mono.justOrEmpty(this.client(graph).users(id).memberOf().buildRequest().get());
+        return Mono.justOrEmpty(this.users(graph, id).memberOf().buildRequest().get());
     }
 
 }

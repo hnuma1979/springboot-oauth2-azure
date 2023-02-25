@@ -25,7 +25,7 @@ public class GraphAppRoleAssignmentsService extends BaseGraphService {
         log.debug("list");
         Assert.notNull(graph, "graph");
         Assert.notNull(id, "id");
-        return Mono.justOrEmpty(this.client(graph).users(id).appRoleAssignments().buildRequest().get());
+        return Mono.justOrEmpty(this.users(graph, id).appRoleAssignments().buildRequest().get());
     }
 
     /**
@@ -40,7 +40,7 @@ public class GraphAppRoleAssignmentsService extends BaseGraphService {
         log.debug("add");
         Assert.notNull(graph, "graph");
         Assert.notNull(id, "id");
-        return Mono.justOrEmpty(this.client(graph).users(id).appRoleAssignments().buildRequest().post(data));
+        return Mono.justOrEmpty(this.users(graph, id).appRoleAssignments().buildRequest().post(data));
     }
 
     /**
@@ -57,7 +57,7 @@ public class GraphAppRoleAssignmentsService extends BaseGraphService {
         Assert.notNull(graph, "graph");
         Assert.notNull(id, "id");
         Assert.notNull(dataId, "dataId");
-        return Mono.justOrEmpty(this.client(graph).users(id).appRoleAssignments(dataId).buildRequest().delete());
+        return Mono.justOrEmpty(this.users(graph, id).appRoleAssignments(dataId).buildRequest().delete());
     }
 
 }

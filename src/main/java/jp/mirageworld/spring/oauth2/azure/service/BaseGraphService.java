@@ -10,7 +10,9 @@ import com.azure.core.credential.AccessToken;
 import com.azure.core.credential.TokenCredential;
 import com.microsoft.graph.authentication.TokenCredentialAuthProvider;
 import com.microsoft.graph.requests.GraphServiceClient;
+import com.microsoft.graph.requests.UserRequestBuilder;
 
+import jakarta.annotation.Nonnull;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Request;
 import reactor.core.publisher.Mono;
@@ -36,4 +38,11 @@ public class BaseGraphService {
                 .buildClient();
     }
 
+    UserRequestBuilder users(@Nonnull OAuth2AuthorizedClient graph) {
+        return this.client(graph).me();
+    }
+
+    UserRequestBuilder users(@Nonnull OAuth2AuthorizedClient graph, @Nonnull String id) {
+        return this.client(graph).users(id);
+    }
 }
