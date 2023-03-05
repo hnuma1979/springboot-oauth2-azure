@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.util.Assert;
 
+import com.google.common.base.Objects;
 import com.microsoft.graph.models.User;
+import com.microsoft.graph.models.UserChangePasswordParameterSet;
 import com.microsoft.graph.options.Option;
 import com.microsoft.graph.requests.UserCollectionPage;
 
@@ -24,6 +26,19 @@ public class UsersGraphService {
     public User update(@Nonnull User user) {
         Assert.notNull(user, "user");
         return this.graphService.users(user.id).buildRequest().patch(user);
+    }
+
+    public void passwordChange(@Nonnull String id, @Nonnull String oldPassword, @Nonnull String newPassword) {
+        Assert.notNull(id, "id");
+        Assert.notNull(oldPassword, "oldPassword");
+        Assert.notNull(newPassword, "newPassword");
+        Assert.isTrue(!Objects.equal(oldPassword, newPassword), "oldPassword = newPassword");
+        this.graphService.users(id)
+                .changePassword(UserChangePasswordParameterSet.newBuilder()
+                        .withCurrentPassword(oldPassword)
+                        .withNewPassword(newPassword)
+                        .build())
+                .buildRequest().post();
     }
 
     public User delete(@Nonnull User user) {
