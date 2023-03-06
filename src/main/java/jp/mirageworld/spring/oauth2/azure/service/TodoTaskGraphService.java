@@ -61,4 +61,7 @@ public class TodoTaskGraphService
         return new ChecklistItemGraphService(this.builder.byId(id).checklistItems());
     }
 
+    public LinkedResourceGraphService linkedResources(@Nonnull String id) {
+        return new LinkedResourceGraphService(this.builder.byId(id).linkedResources());
+    }
 }
