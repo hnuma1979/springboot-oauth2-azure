@@ -68,16 +68,20 @@ public class UsersGraphService
         return this.list(List.of(options));
     }
 
-    public CalendarGroupGraphService calendarGroup(String id) {
+    public CalendarGroupGraphService calendarGroup(@Nonnull String id) {
         return new CalendarGroupGraphService(this.builder.byId(id).calendarGroups());
     }
 
-    public CalendarGraphService calendar(String id) {
+    public CalendarGraphService calendar(@Nonnull String id) {
         return new CalendarGraphService(this.builder.byId(id).calendars());
     }
 
-    public EventGraphService events(String id) {
+    public EventGraphService events(@Nonnull String id) {
         return new EventGraphService(this.builder.byId(id).events());
+    }
+
+    public TodoGraphService todo(@Nonnull String id) {
+        return new TodoGraphService(this.builder.byId(id).todo());
     }
 
 }
