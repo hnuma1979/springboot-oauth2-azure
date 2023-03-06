@@ -123,4 +123,9 @@ public class UsersGraphService
         return new MailFolderGraphService(this.builder.byId(id).mailFolders());
     }
 
+    public MessageGraphService messages(@Nonnull String id) {
+        Assert.notNull(id, "id");
+        return new MessageGraphService(this.builder.byId(id).messages());
+    }
+
 }

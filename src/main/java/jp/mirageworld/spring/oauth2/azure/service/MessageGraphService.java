@@ -4,58 +4,53 @@ import java.util.List;
 
 import org.springframework.util.Assert;
 
-import com.microsoft.graph.models.MailFolder;
+import com.microsoft.graph.models.Message;
 import com.microsoft.graph.options.Option;
-import com.microsoft.graph.requests.MailFolderCollectionPage;
-import com.microsoft.graph.requests.MailFolderCollectionRequestBuilder;
+import com.microsoft.graph.requests.MessageCollectionPage;
+import com.microsoft.graph.requests.MessageCollectionRequestBuilder;
 
 import jakarta.annotation.Nonnull;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class MailFolderGraphService
+public class MessageGraphService
         implements
-        ICrudGraphService<MailFolder, MailFolderCollectionPage> {
+        ICrudGraphService<Message, MessageCollectionPage> {
 
-    final MailFolderCollectionRequestBuilder builder;
+    final MessageCollectionRequestBuilder builder;
 
     @Override
-    public MailFolder create(@Nonnull MailFolder item) {
+    public Message create(@Nonnull Message item) {
         Assert.notNull(item, "item");
         return this.builder.buildRequest().post(item);
     }
 
     @Override
-    public MailFolder update(@Nonnull MailFolder item) {
+    public Message update(@Nonnull Message item) {
         Assert.notNull(item, "item");
         return this.builder.byId(item.id).buildRequest().patch(item);
     }
 
     @Override
-    public MailFolder delete(@Nonnull MailFolder item) {
+    public Message delete(@Nonnull Message item) {
         Assert.notNull(item, "item");
         return this.builder.byId(item.id).buildRequest().delete();
     }
 
     @Override
-    public MailFolder get(@Nonnull String id) {
+    public Message get(@Nonnull String id) {
         Assert.notNull(id, "id");
         return this.builder.byId(id).buildRequest().get();
     }
 
     @Override
-    public MailFolderCollectionPage list(List<Option> options) {
+    public MessageCollectionPage list(List<Option> options) {
         return this.builder.buildRequest(options).get();
     }
 
     @Override
-    public MailFolderCollectionPage list(Option... options) {
+    public MessageCollectionPage list(Option... options) {
         return this.list(List.of(options));
-    }
-
-    public MessageGraphService messages(@Nonnull String id) {
-        Assert.notNull(id, "id");
-        return new MessageGraphService(this.builder.byId(id).messages());
     }
 
 }
