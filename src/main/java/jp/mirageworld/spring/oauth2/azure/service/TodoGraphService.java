@@ -32,4 +32,8 @@ public class TodoGraphService {
         return this.builder.buildRequest().get();
     }
 
+    public TodoTaskListGraphService list() {
+        return new TodoTaskListGraphService(this.builder.lists());
+    }
+
 }
