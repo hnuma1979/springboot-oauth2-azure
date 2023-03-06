@@ -152,4 +152,8 @@ public class EventGraphService
         this.builder.byId(id).dismissReminder().buildRequest().post();
     }
 
+    public AttachmentGraphService attachments(@Nonnull String id) {
+        return new AttachmentGraphService(this.builder.byId(id).attachments());
+    }
+
 }
