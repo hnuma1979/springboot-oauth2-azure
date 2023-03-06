@@ -52,4 +52,8 @@ public class UserTeamworkGraphService
         return this.list(List.of(options));
     }
 
+    public AssociatedTeamInfoGraphService associatedTeams() {
+        return new AssociatedTeamInfoGraphService(this.builder.associatedTeams());
+    }
+
 }
