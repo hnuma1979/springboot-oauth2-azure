@@ -108,4 +108,14 @@ public class UsersGraphService
         return new UserTeamworkGraphService(this.builder.byId(id).teamwork());
     }
 
+    public DirectoryObjectCollectionWithReferencesGraphService memberOf(@Nonnull String id) {
+        Assert.notNull(id, "id");
+        return new DirectoryObjectCollectionWithReferencesGraphService(this.builder.byId(id).memberOf());
+    }
+
+    public DirectoryObjectCollectionWithReferencesGraphService transitiveMemberOf(@Nonnull String id) {
+        Assert.notNull(id, "id");
+        return new DirectoryObjectCollectionWithReferencesGraphService(this.builder.byId(id).transitiveMemberOf());
+    }
+
 }
