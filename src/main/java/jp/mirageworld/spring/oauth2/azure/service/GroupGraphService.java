@@ -53,4 +53,8 @@ public class GroupGraphService
         return this.list(List.of(options));
     }
 
+    public CalendarGraphService calendar(String id) {
+        return new CalendarGraphService(this.builder.byId(id).calendar());
+    }
+
 }
