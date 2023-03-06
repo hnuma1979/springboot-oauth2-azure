@@ -103,4 +103,9 @@ public class UsersGraphService
         return new TeamGraphService(this.builder.byId(id).joinedTeams());
     }
 
+    public UserTeamworkGraphService teamwork(@Nonnull String id) {
+        Assert.notNull(id, "id");
+        return new UserTeamworkGraphService(this.builder.byId(id).teamwork());
+    }
+
 }
