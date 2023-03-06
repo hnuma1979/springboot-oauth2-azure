@@ -98,4 +98,9 @@ public class UsersGraphService
         return new DriveGraphService(this.builder.byId(id).drive());
     }
 
+    public TeamGraphService joinedTeams(@Nonnull String id) {
+        Assert.notNull(id, "id");
+        return new TeamGraphService(this.builder.byId(id).joinedTeams());
+    }
+
 }
