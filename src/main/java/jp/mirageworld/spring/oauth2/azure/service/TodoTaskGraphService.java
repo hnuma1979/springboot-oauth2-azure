@@ -57,4 +57,8 @@ public class TodoTaskGraphService
         return new AttachmentBaseGraphService(this.builder.byId(id).attachments());
     }
 
+    public ChecklistItemGraphService checklistItems(@Nonnull String id) {
+        return new ChecklistItemGraphService(this.builder.byId(id).checklistItems());
+    }
+
 }
