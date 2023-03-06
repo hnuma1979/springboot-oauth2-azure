@@ -68,4 +68,8 @@ public class UsersGraphService
         return this.list(List.of(options));
     }
 
+    public CalendarGroupGraphService calendarGroup(String id) {
+        return new CalendarGroupGraphService(this.builder.byId(id).calendarGroups());
+    }
+
 }
