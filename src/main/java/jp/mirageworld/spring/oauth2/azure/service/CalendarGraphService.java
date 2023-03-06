@@ -30,45 +30,30 @@ public class CalendarGraphService
     @Override
     public Calendar create(@Nonnull Calendar item) throws UnsupportedOperationException {
         Assert.notNull(item, "item");
-        if (this.collectionBuilder == null) {
-            throw new UnsupportedOperationException();
-        }
-        return this.collectionBuilder.buildRequest().post(item);
+        return this.builder().buildRequest().post(item);
     }
 
     @Override
     public Calendar update(@Nonnull Calendar item) {
         Assert.notNull(item, "item");
-        if (this.collectionBuilder == null) {
-            return this.builder.buildRequest().patch(item);
-        }
-        return this.collectionBuilder.byId(item.id).buildRequest().patch(item);
+        return this.builder(item.id).buildRequest().patch(item);
     }
 
     @Override
     public Calendar delete(@Nonnull Calendar item) {
         Assert.notNull(item, "item");
-        if (this.collectionBuilder == null) {
-            return this.builder.buildRequest().delete();
-        }
-        return this.collectionBuilder.byId(item.id).buildRequest().delete();
+        return this.builder(item.id).buildRequest().delete();
     }
 
     @Override
     public Calendar get(@Nonnull String id) {
         Assert.notNull(id, "id");
-        if (this.collectionBuilder == null) {
-            return this.builder.buildRequest().get();
-        }
-        return this.collectionBuilder.byId(id).buildRequest().get();
+        return this.builder(id).buildRequest().get();
     }
 
     @Override
     public CalendarCollectionPage list(List<Option> options) {
-        if (this.collectionBuilder == null) {
-            throw new UnsupportedOperationException();
-        }
-        return this.collectionBuilder.buildRequest(options).get();
+        return this.builder().buildRequest(options).get();
     }
 
     @Override
@@ -76,4 +61,17 @@ public class CalendarGraphService
         return this.list(List.of(options));
     }
 
+    private CalendarCollectionRequestBuilder builder() {
+        if (this.collectionBuilder == null) {
+            throw new UnsupportedOperationException();
+        }
+        return this.collectionBuilder;
+    }
+
+    private CalendarRequestBuilder builder(@Nonnull String id) {
+        if (this.collectionBuilder == null) {
+            return this.builder;
+        }
+        return this.collectionBuilder.byId(id);
+    }
 }
