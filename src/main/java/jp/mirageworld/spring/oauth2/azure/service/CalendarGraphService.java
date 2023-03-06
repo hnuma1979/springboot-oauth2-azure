@@ -61,6 +61,10 @@ public class CalendarGraphService
         return this.list(List.of(options));
     }
 
+    public EventGraphService events(String id) {
+        return new EventGraphService(this.builder(id).events());
+    }
+
     private CalendarCollectionRequestBuilder builder() {
         if (this.collectionBuilder == null) {
             throw new UnsupportedOperationException();
@@ -74,4 +78,5 @@ public class CalendarGraphService
         }
         return this.collectionBuilder.byId(id);
     }
+
 }

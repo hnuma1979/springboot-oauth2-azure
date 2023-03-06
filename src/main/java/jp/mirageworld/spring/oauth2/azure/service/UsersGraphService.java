@@ -76,4 +76,8 @@ public class UsersGraphService
         return new CalendarGraphService(this.builder.byId(id).calendars());
     }
 
+    public EventGraphService events(String id) {
+        return new EventGraphService(this.builder.byId(id).events());
+    }
+
 }
