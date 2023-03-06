@@ -9,23 +9,28 @@ import com.microsoft.graph.models.User;
 import com.microsoft.graph.models.UserChangePasswordParameterSet;
 import com.microsoft.graph.options.Option;
 import com.microsoft.graph.requests.UserCollectionPage;
+import com.microsoft.graph.requests.UserCollectionRequestBuilder;
 
 import jakarta.annotation.Nonnull;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class UsersGraphService {
+public class UsersGraphService
+        implements
+        ICrudGraphService<User, UserCollectionPage> {
 
-    final GraphService graphService;
+    final UserCollectionRequestBuilder builder;
 
-    public User create(@Nonnull User user) {
-        Assert.notNull(user, "user");
-        return this.graphService.users().buildRequest().post(user);
+    @Override
+    public User create(@Nonnull User item) {
+        Assert.notNull(item, "item");
+        return this.builder.buildRequest().post(item);
     }
 
-    public User update(@Nonnull User user) {
-        Assert.notNull(user, "user");
-        return this.graphService.users(user.id).buildRequest().patch(user);
+    @Override
+    public User update(@Nonnull User item) {
+        Assert.notNull(item, "item");
+        return this.builder.byId(item.id).buildRequest().patch(item);
     }
 
     public void passwordChange(@Nonnull String id, @Nonnull String oldPassword, @Nonnull String newPassword) {
@@ -33,7 +38,7 @@ public class UsersGraphService {
         Assert.notNull(oldPassword, "oldPassword");
         Assert.notNull(newPassword, "newPassword");
         Assert.isTrue(!Objects.equal(oldPassword, newPassword), "oldPassword = newPassword");
-        this.graphService.users(id)
+        this.builder.byId(id)
                 .changePassword(UserChangePasswordParameterSet.newBuilder()
                         .withCurrentPassword(oldPassword)
                         .withNewPassword(newPassword)
@@ -41,20 +46,24 @@ public class UsersGraphService {
                 .buildRequest().post();
     }
 
-    public User delete(@Nonnull User user) {
-        Assert.notNull(user, "user");
-        return this.graphService.users(user.id).buildRequest().delete();
+    @Override
+    public User delete(@Nonnull User item) {
+        Assert.notNull(item, "item");
+        return this.builder.byId(item.id).buildRequest().delete();
     }
 
+    @Override
     public User get(@Nonnull String id) {
         Assert.notNull(id, "id");
-        return this.graphService.users(id).buildRequest().get();
+        return this.builder.byId(id).buildRequest().get();
     }
 
+    @Override
     public UserCollectionPage list(List<Option> options) {
-        return this.graphService.users().buildRequest(options).get();
+        return this.builder.buildRequest(options).get();
     }
 
+    @Override
     public UserCollectionPage list(Option... options) {
         return this.list(List.of(options));
     }
