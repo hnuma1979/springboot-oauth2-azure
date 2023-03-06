@@ -118,4 +118,9 @@ public class UsersGraphService
         return new DirectoryObjectCollectionWithReferencesGraphService(this.builder.byId(id).transitiveMemberOf());
     }
 
+    public MailFolderGraphService mailFolders(@Nonnull String id) {
+        Assert.notNull(id, "id");
+        return new MailFolderGraphService(this.builder.byId(id).mailFolders());
+    }
+
 }
