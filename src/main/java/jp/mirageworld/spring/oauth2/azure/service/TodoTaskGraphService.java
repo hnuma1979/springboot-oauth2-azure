@@ -54,14 +54,17 @@ public class TodoTaskGraphService
     }
 
     public AttachmentBaseGraphService attachments(@Nonnull String id) {
+        Assert.notNull(id, "id");
         return new AttachmentBaseGraphService(this.builder.byId(id).attachments());
     }
 
     public ChecklistItemGraphService checklistItems(@Nonnull String id) {
+        Assert.notNull(id, "id");
         return new ChecklistItemGraphService(this.builder.byId(id).checklistItems());
     }
 
     public LinkedResourceGraphService linkedResources(@Nonnull String id) {
+        Assert.notNull(id, "id");
         return new LinkedResourceGraphService(this.builder.byId(id).linkedResources());
     }
 }

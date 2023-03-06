@@ -54,6 +54,7 @@ public class TodoTaskListGraphService
     }
 
     public TodoTaskGraphService tasks(String id) {
+        Assert.notNull(id, "id");
         return new TodoTaskGraphService(this.builder.byId(id).tasks());
     }
 

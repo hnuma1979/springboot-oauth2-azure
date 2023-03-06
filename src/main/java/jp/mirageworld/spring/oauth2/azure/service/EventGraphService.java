@@ -153,6 +153,7 @@ public class EventGraphService
     }
 
     public AttachmentGraphService attachments(@Nonnull String id) {
+        Assert.notNull(id, "id");
         return new AttachmentGraphService(this.builder.byId(id).attachments());
     }
 

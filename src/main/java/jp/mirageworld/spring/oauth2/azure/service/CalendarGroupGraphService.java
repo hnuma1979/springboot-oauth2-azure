@@ -54,6 +54,7 @@ public class CalendarGroupGraphService
     }
 
     public CalendarGraphService calendar(String id) {
+        Assert.notNull(id, "id");
         return new CalendarGraphService(this.builder.byId(id).calendars());
     }
 

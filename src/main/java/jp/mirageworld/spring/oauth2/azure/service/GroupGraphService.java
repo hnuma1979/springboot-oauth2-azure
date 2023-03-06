@@ -54,10 +54,12 @@ public class GroupGraphService
     }
 
     public CalendarGraphService calendar(String id) {
+        Assert.notNull(id, "id");
         return new CalendarGraphService(this.builder.byId(id).calendar());
     }
 
     public EventGraphService events(String id) {
+        Assert.notNull(id, "id");
         return new EventGraphService(this.builder.byId(id).events());
     }
 
