@@ -63,4 +63,14 @@ public class GroupGraphService
         return new EventGraphService(this.builder.byId(id).events());
     }
 
+    public DriveGraphService drives(@Nonnull String id) {
+        Assert.notNull(id, "id");
+        return new DriveGraphService(this.builder.byId(id).drives());
+    }
+
+    public DriveGraphService drive(@Nonnull String id) {
+        Assert.notNull(id, "id");
+        return new DriveGraphService(this.builder.byId(id).drive());
+    }
+
 }

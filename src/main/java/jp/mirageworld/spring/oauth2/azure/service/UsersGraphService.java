@@ -88,4 +88,14 @@ public class UsersGraphService
         return new TodoGraphService(this.builder.byId(id).todo());
     }
 
+    public DriveGraphService drives(@Nonnull String id) {
+        Assert.notNull(id, "id");
+        return new DriveGraphService(this.builder.byId(id).drives());
+    }
+
+    public DriveGraphService drive(@Nonnull String id) {
+        Assert.notNull(id, "id");
+        return new DriveGraphService(this.builder.byId(id).drive());
+    }
+
 }
